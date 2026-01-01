@@ -3,10 +3,12 @@ package co.cetad.umas.smtp.infrastructure.persistence.mapper;
 import co.cetad.umas.smtp.domain.model.dto.EmailNotification;
 import co.cetad.umas.smtp.domain.model.dto.EmailStatus;
 import co.cetad.umas.smtp.domain.model.entity.EmailNotificationEntity;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
 
 import java.util.HashMap;
@@ -52,7 +54,7 @@ public class EmailNotificationEntityMapper {
     private String serializeVariables(Map<String, Object> variables) {
         try {
             return objectMapper.writeValueAsString(variables);
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             log.error("Error serializando variables", e);
             return "{}";
         }
@@ -61,7 +63,7 @@ public class EmailNotificationEntityMapper {
     private Map<String, Object> deserializeVariables(String variables) {
         try {
             return objectMapper.readValue(variables, new TypeReference<>() {});
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             log.error("Error deserializando variables", e);
             return new HashMap<>();
         }

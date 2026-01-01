@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>UMAS - Preparación de Dron Requerida</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #0f1924;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 640px;
+            margin: 40px auto;
+            background: #1a2332;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,.3);
+        }
+        .header {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: #fff;
+            padding: 24px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .content {
+            padding: 32px;
+            color: #e2e8f0;
+        }
+        .label {
+            font-size: 12px;
+            color: #94a3b8;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .value {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: #f1f5f9;
+        }
+        .box {
+            border-left: 4px solid #3b82f6;
+            padding-left: 16px;
+            margin-bottom: 24px;
+        }
+        .footer {
+            text-align: center;
+            font-size: 11px;
+            color: #64748b;
+            padding: 24px;
+            background: #0f1924;
+        }
+        .alert {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 16px;
+            margin-bottom: 24px;
+            border-radius: 4px;
+            color: #92400e;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        🚁 UMAS · Preparación de Dron Requerida
+    </div>
+    <!-- Content -->
+    <div class="content">
+        <div class="alert">
+            ⚠️ Se requiere preparación inmediata del dron para la misión programada
+        </div>
+
+        <p>
+            Hola,<br/><br/>
+            La misión autónoma programada requiere que el dron esté listo para despegue.
+            Por favor, complete las verificaciones pre-vuelo necesarias.
+        </p>
+
+        <div class="box">
+            <div class="label">Nombre de la misión</div>
+            <div class="value" th:text="${missionName}">Inspección Perimetral</div>
+        </div>
+
+        <div class="box">
+            <div class="label">ID de la misión</div>
+            <div class="value" th:text="${missionId}">MIS-00123</div>
+        </div>
+
+        <div class="box">
+            <div class="label">Nombre del vehículo</div>
+            <div class="value" th:text="${vehicleName}">Falcon-X</div>
+        </div>
+
+        <div class="box">
+            <div class="label">ID del vehículo</div>
+            <div class="value" th:text="${vehicleId}">DRN-7788</div>
+        </div>
+
+        <div class="box">
+            <div class="label">Hora de ejecución programada</div>
+            <div class="value" th:text="${scheduledExecutionTime}">2026-01-01 14:30:00</div>
+        </div>
+
+        <div class="box">
+            <div class="label">Tiempo antes de ejecución</div>
+            <div class="value" th:text="${minutesBeforeExecution}">30 minutos</div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <div class="footer">
+        UMAS · Sistema de Notificaciones Automatizadas<br/>
+        Notificación generada: <span th:text="${publishedAt}">2026-01-01 12:00:00</span><br/>
+        Este correo es generado automáticamente, por favor no responder
+    </div>
+</div>
+</body>
+</html>

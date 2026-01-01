@@ -1,3 +1,85 @@
+server:
+  port: ${PORT:8080}
+
 spring:
   application:
-    name: UMAS SMTP Service
+    name: umas-smtp-service
+
+  # R2DBC Configuration
+  r2dbc:
+    host: ${DB_HOST}
+    port: ${DB_PORT}
+    database: ${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASS}
+    pool:
+      initial-size: 10
+      max-size: 20
+      max-idle-time: 30m
+      validation-query: SELECT 1
+
+  kafka:
+    consumer:
+      bootstrap-servers: ${KAFKA_BROKERS:localhost:29092}
+      group-id: umas-smtp-service
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      enable-auto-commit: false
+      properties:
+        spring.json.trusted.packages: "co.cetad.umas.smtp.domain.model.dto"
+
+# UMAS SMTP Configuration
+umas:
+  smtp:
+    kafka:
+      topics:
+        dron-preparation: umas.dron.preparation.notification
+
+    templates:
+      dron-preparation:
+        subject: "Preparación de Dron Requerida - {missionName}"
+        template-name: dron-preparation-notification
+
+    email:
+      retry:
+        max-attempts: 3
+        delay-seconds: 30
+      from:
+        address: ${GMAIL_USERNAME}
+        name: UMAS Notification System
+
+  # Thymeleaf Configuration
+  thymeleaf:
+    cache: false
+    mode: HTML
+    encoding: UTF-8
+    prefix: classpath:/templates/
+    suffix: .html
+
+# ===== MANAGEMENT / ACTUATOR =====
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,caches,redis
+  endpoint:
+    health:
+      show-details: always
+  health:
+    redis:
+      enabled: true
+  metrics:
+    enable:
+      cache: true
+
+# Logging Configuration
+logging:
+  level:
+    root: INFO
+    co.cetad.umas.smtp: DEBUG
+    org.springframework.kafka: INFO
+    org.springframework.r2dbc: DEBUG
+    io.r2dbc.postgresql.QUERY: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n"

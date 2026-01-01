@@ -1,12 +1,12 @@
 package co.cetad.umas.smtp.domain.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
 
@@ -20,31 +20,31 @@ public class EmailNotificationEntity {
     @Id
     private String id;
 
-    @Column(name = "recipient")
+    @Column("recipient")
     private String recipient;
 
-    @Column(name = "subject")
+    @Column("subject")
     private String subject;
 
-    @Column(name = "template_name")
+    @Column("template_name")
     private String templateName;
 
-    @Column(name = "template_variables")
+    @Column("template_variables")
     private String templateVariables;
 
-    @Column(name = "status")
+    @Column("status")
     private String status;
 
-    @Column(name = "created_at")
+    @Column("created_at")
     private LocalDateTime createdAt;
 
-    @Column(name = "sent_at")
+    @Column("sent_at")
     private LocalDateTime sentAt;
 
-    @Column(name = "error_message")
+    @Column("error_message")
     private String errorMessage;
 
-    @Column(name = "retry_count")
+    @Column("retry_count")
     private Integer retryCount;
 
 }
