@@ -7,16 +7,13 @@ spring:
 
   # R2DBC Configuration
   r2dbc:
-    host: ${DB_HOST}
-    port: ${DB_PORT}
-    database: ${DB_NAME}
-    username: ${DB_USER}
-    password: ${DB_PASS}
+    url: r2dbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:umas_db}
+    username: ${DB_USER:umas_user}
+    password: ${DB_PASS:umas_pass}
     pool:
       initial-size: 10
       max-size: 20
       max-idle-time: 30m
-      validation-query: SELECT 1
 
   kafka:
     consumer:
@@ -37,6 +34,17 @@ spring:
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
+      mail.smtp.connectiontimeout: 5000
+      mail.smtp.timeout: 5000
+      mail.smtp.writetimeout: 5000
+
+  # Thymeleaf Configuration
+  thymeleaf:
+    cache: false
+    mode: HTML
+    encoding: UTF-8
+    prefix: classpath:/templates/
+    suffix: .html
 
 # UMAS SMTP Configuration
 umas:
@@ -58,29 +66,18 @@ umas:
         address: ${GMAIL_USERNAME}
         name: UMAS Notification System
 
-  # Thymeleaf Configuration
-  thymeleaf:
-    cache: false
-    mode: HTML
-    encoding: UTF-8
-    prefix: classpath:/templates/
-    suffix: .html
-
 # ===== MANAGEMENT / ACTUATOR =====
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics,caches,redis
+        include: health,info,metrics
   endpoint:
     health:
       show-details: always
   health:
-    redis:
-      enabled: true
-  metrics:
-    enable:
-      cache: true
+    mail:
+      enabled: false  # Desactivar health check de mail para evitar timeouts
 
 # Logging Configuration
 logging:
